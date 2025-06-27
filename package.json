@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Amandaaaaabreu/TypeORM#readme",
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
   },
