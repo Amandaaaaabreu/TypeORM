@@ -17,13 +17,12 @@
 
 // ou
 
-import express, { Request, Response } from 'express';
+import express from 'express';
+import { router } from './routes';
 
 const server = express();
 
-server.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Bem vindo a API' });
-});
+server.use(router);
 
 server.listen(5000, () => {
   console.log('Server rodando na porta 5000 http://localhost:5000/');
