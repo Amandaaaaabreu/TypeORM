@@ -1,19 +1,32 @@
+import { getRepository } from 'typeorm';
+import { Usuario } from '../entities/Usuario';
 // Simulando conexao com o banco de dados
 // Vai fazer a comunicação com o banco de dados
-
 interface IUsuario{
-    name: string,
-    email: string,
-    profissao: string
+    id: string, 
+    nome: string,
+    email?: string,
+    
 }
 
 class CreateUserService{
-    execute({name, email, profissao}:IUsuario){
-        const data = [];
+    async execute({id, nome, email}:IUsuario){
+     const usuario = await getRepository("Usuario")
+        .createQueryBuilder()
+        .insert()
+        .into(Usuario)
+        .values([
+            {
+                id: id,
+                nome: nome, 
+                email: email, 
+            }
+        ])
+        .execute();
 
-        data.push({name, email, profissao});
+        console.log(usuario);
 
-        return data;
+        return usuario;
     }
 
 }
