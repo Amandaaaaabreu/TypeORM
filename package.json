@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js "
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js ",
+    "typeorm:run": "npm run typeorm migration:run -- --dataSource src/data-source.ts"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "express": "^5.1.0",
     "reflect-metadata": "^0.2.2",
     "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
     "typeorm": "^0.3.25"
   }
 }
