@@ -1,3 +1,4 @@
+import { getConnection } from 'typeorm';
 import  createConnection  from '../database';
 import { Result } from './../../node_modules/@jest/reporters/node_modules/glob/dist/commonjs/glob.d';
 import { CreateUserController } from './CreateUserController';
@@ -6,12 +7,23 @@ import { makeMockReponse } from '../../utils/mocks/mockResponse';
 
 
 describe('CreateUserController', () => {
-    it ('Deve retornar o id do usuário criado',  async() =>{
+    beforeAll(async () => {
         const connection = await createConnection();
         await connection.runMigrations();
-        
-        const createUserController = new CreateUserController();
+    })
 
+    afterAll(async () => {
+        const connection = getConnection();
+        await connection.query('DELETE FROM usuarios')
+        await connection.dropDatabase();
+
+    })
+
+    const createUserController = new CreateUserController();
+
+    const response = makeMockReponse();
+
+    it ('Deve retornar status 201 quando o usuário for criado',  async() =>{
         const request = {
             body: {
                 nome: 'Algum usuário', 
@@ -19,13 +31,25 @@ describe('CreateUserController', () => {
             }
         } as Request;
 
-        const response = makeMockReponse();
+        await createUserController.handle(request, response);
 
-        const result =  await createUserController.handle(request, response);
-
-        console.log(result);
+        expect(response.state.status).toBe(201);
 
     })
+
+    it('Deve retornar status 400 quando nome ou email não forem preenchidos', async () => {
+         const request = {
+            body: {
+                nome: '', 
+                email: ''
+            }
+        } as Request;
+
+        await createUserController.handle(request, response);
+
+        expect(response.state.status).toBe(400);
+    })
+    
 
    
 }) 
