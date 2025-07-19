@@ -21,7 +21,7 @@ class UpdateUserController {
 
         await updateUserService.execute({id, nome, email});
 
-        return response.status(204)
+        return response.status(204).json()
     }
 }
 
